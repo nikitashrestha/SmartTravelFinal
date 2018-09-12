@@ -1,0 +1,19 @@
+{% extends 'Blog/base.html' %}
+
+{% block header %}
+
+    <br>
+	<h4 class="lead">Edit your blog post:</h4>
+	<hr class="my-4">
+
+{% endblock header %}
+
+{% block content %}
+
+    <form action="{% url 'Blog:edit_post' blogpost.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit" class="btn btn-success">Save Changes</button>
+    </form>
+
+{% endblock content %}

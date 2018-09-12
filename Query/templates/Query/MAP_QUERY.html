@@ -1,0 +1,75 @@
+{% extends 'Query/base.html' %}
+{% load staticfiles %}
+{% block map_content%}
+
+<div class="container-flow" >
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+      <div class="container">
+        <h5 class="navbar-brand">View in Map</h5>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            
+              <div class="form-row">
+                <div class="col-12 col-lg-10 mb-8 mb-md-0">
+                  <input type="text" id= "destination"  class="form-control"  placeholder="enter destination">
+                </div>
+                   <div class="col-12 col-lg-2">
+                     <input class= "btn btn-info" type="button" value="Find Route" onclick="submit_form();">
+                </div>
+              </div>
+
+          </div>
+          <div class="btn-group-vertical">
+            <select id="soflow" style="width: 100%;">
+              <option value="amusement_park">Park</option>
+              <option value="art_gallery">Art Gallery</option>
+              <option value="atm">ATM</option>
+              <option value="bakery">Bakery</option>
+              <option value="book_store">Book Store</option>
+              <option value="bowling_alley">Bowling Alley</option>
+              <option value="cafe">cafe</option>
+              <option value="campground">Camp Ground</option>
+              <option value="casino">Casino</option>
+              <option value="hindu_temple">Hindu Temples</option>
+              <option value="hospital">Hospital</option>
+              <option value="zoo">Zoo</option>
+              <option value="restaurant">Restaurant</option>
+              <option value="parking">Parking</option>
+              <option value="museum">Museum</option>
+              <option value="night_club">NightClub</option>
+              <option value="lodging">Lodging</option>
+            </select>  
+        </div>
+        </div>
+      </div>
+    </nav>
+
+  <div class="row">
+      <div class="col-8" style="  padding-top:  10px;"  >
+        <div class="card">
+          <div class="card-body">
+          <h5 class="card-title">Result Destination</h5>
+          <div class="container" id="map" style="height: 500px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4" id="review">                      
+           <!-- Reviews here  -->
+          <h5 class="display-h5" id="review_head" ></h5>
+          <h6 id="review_head_number"></h6>
+          <div class="container" style="overflow: scroll;height: 25%;">
+               <div class="row" id="reviews">
+                </div>
+            </div>
+      </div>
+  </div>
+  <!-- /.row -->
+</div>
+<!-- container ends here  -->
+
+
+
+<div id="directions_panel" style="margin:20px;background-color:#FFEE77;" ></div>
+
+  {% endblock %}

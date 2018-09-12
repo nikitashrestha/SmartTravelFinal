@@ -1,0 +1,107 @@
+{% extends 'Query/base.html' %}
+{% load staticfiles %}
+{% load cloudinary %}
+{% block detail_content %}
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading/Breadcrumbs -->
+      <h1 class="mt-4 mb-3">Result for
+        <small>
+          <a href="#">{{Place_Info.C_Name}}</a>
+        </small>
+      </h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Detail Information</li>
+       <li class="breadcrumb-item active"><a href="/map" class="btn btn-info">Show in Map</a></li>
+      </ol>
+       
+          <div class="row">
+            <!-- Post Content Column -->
+              <div class="col-lg-8">
+                  <!-- Preview Image -->
+                  <img class="card-img-top" src="{{Place_Info.photo.url}}" alt="Card image cap" style="width:600px; height:auto;">
+              
+              </div>
+          </div>
+ 
+           <div class="row">
+                <div class="col-lg-8">
+                  <hr>
+                  <!-- Date/Time -->
+                  <h2>{{Place_Info.Name }}</h2>
+
+                  <hr>
+
+                     <!-- Post Content -->
+                    <p class="lead">{{Place_Info.Popular_for}}</p>
+                    <p class="lead">{{Place_Info.Desc}}</p>
+
+
+                  <p><b>Location : {{Place_Info.Locality}},{{Place_Info.P_Name}},{{Place_Info.District}},{{Place_Info.Zone}}</b></p>
+                    <p><b>  Opening Time : {{Place_Info.Opening_Time}}</b></p>
+                    <p><b>  Charge: {{Place_Info.Entry_fee}}{{Place_Info.charge}}</b></p>
+
+                  <hr>
+
+                  <!-- Comments Form -->
+                  <div class="card my-4">
+                    <h5 class="card-header">Leave a Comment:</h5>
+                    <div class="card-body">
+                      <form>
+                        <div class="form-group">
+                          <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+            <!-- Sidebar Widgets Column -->
+            <div class="col-md-4">
+              <!-- Categories Widget -->
+              <div class="card my-4">
+                <h5 class="card-header">Categories</h5>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <ul class="list-unstyled mb-0">
+                        <li>
+                          <a href="{% url 'Query:RetaurantandBar'%}">Retaurant and Bar</a>
+                        </li>
+                        <li>
+                          <a href="#">Recreation Centre</a>
+                        </li>
+                        <li>
+                          <a href="#">Nearby places</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-lg-6">
+                      <ul class="list-unstyled mb-0">
+                        <li>
+                          <a href="#">Adventerous Places </a>
+                        </li>
+                        <li>
+                          <a href="#">Things to do</a>
+                        </li>
+                        <li>
+                          <a href="#">Religious Place</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+    <!-- /.container -->
+
+ 
+
+ {%endblock%}

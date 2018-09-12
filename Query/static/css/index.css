@@ -1,0 +1,12 @@
+#body{
+	padding: 2px;
+	margin: :1px;
+}
+#map{
+    height: 455px;
+    width:auto;
+    padding:none;
+}
+*{
+	color: #000000;
+ }

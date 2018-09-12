@@ -1,0 +1,44 @@
+{% extends 'Blog/base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+    <hr>
+    <div class="jumbotron-fluid">
+        <h4>Notifications</h4>
+    </div>
+    <hr>
+    <br>
+
+    {% for notification in notifications %}
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="col-md-6">{{ notification.created|naturaltime }}</div>
+                    </div>
+                </div>
+            </div>
+        <div class="card-body">
+
+            <div>
+                {% if notification.client != user %}
+                    <strong>'<a href="">{{ notification.client }}</a>'</strong>
+                {% else %}
+                    <strong><a href="">You</a></strong>
+                {% endif %}
+                {{ notification.content }}
+                {% if notification.blogPost != None %}
+                    '<a href="{% url 'Blog:blogDetail' notification.blogPost_id %}">{{ notification.blogPost }}</a>'
+                {% endif %}
+            </div>
+
+        </div>
+        </div>
+        <hr>
+    {% empty %}
+        <p class="float">No new notifications yet.</p>
+    {% endfor %}
+
+
+{% endblock %}

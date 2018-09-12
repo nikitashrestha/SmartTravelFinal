@@ -1,0 +1,67 @@
+<!-- Sidebar Widgets Column -->
+        <div class="col-md -4">
+
+          <!-- Search Widget -->
+          <div class="card bg-light ">
+            <div class="card-body">
+              <div class="input-group">
+                <form method="get" action="{% url 'Blog:simple_search' %}" accept-charset="utf-8" class="form-inline my-2 my-lg-0">
+      					<input type="search" name="q" placeholder="Search blog" aria-label="Search" class="form-control">
+      					<button type="submit" class="btn btn-outline-success">Search</button>
+      				</form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        {% for blog in blogPosts %}
+            {% if blog.photo %}
+              <!-- Blog Posts -->
+              
+              <div class="card " style="background-color: #e8e5e5; padding: 3px; margin: 2px; border-radius: 3%;">
+                <img class="card-img-top" src="{{blog.photo.url}}" alt="Card image cap" style="width:300px; border-radius: 3%; height:auto;">
+                
+                <div class="card-body">
+                  <h4 class="card-title">{{ blog.title }}</h4>
+                  <p class="card-text inline">{{ blog.content|truncatechars:50 }}</p>
+                  <a href="{% url 'Blog:blogDetail' blog.id %}" class="btn btn-primary">Read More &rarr;</a>
+
+                  {% if blog.owner == user %}
+                    <a href="{% url 'Blog:edit_post' blog.id %}" class="btn btn-primary card-link">Edit Post &rarr;</a>
+                    
+                    <!-- delete confirmation Modal -->
+                    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Are You Sure?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="{% url 'Blog:delete_post' blog.id %}"  class="btn btn-default"><span class="glyphicon glyphicon-remove">Delete</span></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteModal">
+                     Delete
+                    </button>
+
+                  {% endif %}
+                </div>
+                <div class="card-footer text-muted">
+                  Posted on {{ blog.date_pub.date }} by
+                  <a href="#">{{ blog.owner }}</a>
+                </div>
+              </div>
+            {% endif %}
+            <hr>
+            {% endfor %}
+

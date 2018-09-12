@@ -1,0 +1,130 @@
+{% extends 'Blog/base.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block blog_content %}
+
+<div class="container">
+
+    <!-- sidenav-->
+    <div id="mySidenav" class="sidenav ">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Profile</a>
+        <a href="#">Your Blog</a>
+        <a href="#">Tour Diary </a>
+        <a href="#">Followers</a>
+        <a href="#">Followings</a>
+    </div>
+
+
+<div id="main">
+
+      <!--new post-->
+      <p><a class="btn btn-outline-primary" href="{% url 'Blog:new_post' %}">Create New Post</a></p>
+
+      <!-- Project Four -->
+
+      {% for blog in blogPosts %}
+      {% if blog.photo %}
+      <div class="row container" style="color: #20222b; margin:none; padding: none; border-radius:4%; border: 1px solid #d0d1d8">
+        <div class="col-md-7">
+          <a href="{{blog.photo.url}}">
+            <img class="card-img-top" src="{{blog.photo.url}}" alt="Card image cap" style="width:500px; border-radius:4%; margin:none; padding:none; height:auto;">
+          </a>
+        </div>
+        <div class="col-md-5" style=" padding:2%; margin-top:2px">
+          <a  class="card-title h4" href="{% url 'Blog:blogDetail' blog.id %}" >{{ blog.title }}</a>
+          <p class="card-text inline" style="height: 66%; padding:1px;">{{ blog.content|truncatechars:100}}</p>
+
+           {% if blog.owner == user %}
+           <!-- delete trigger -->
+          <a href="#" class="card-link" data-toggle="modal" data-target="#DeleteModal">Delete</a>
+          <!-- edit ref -->
+          <a href="{% url 'Blog:edit_post' blog.id %}" class="card-link">Edit Post &rarr;</a>
+          {% endif %}
+                                              
+              <!-- delete confirmation Modal -->
+              <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalCenterTitle">Are You Sure?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <a href="{% url 'Blog:delete_post' blog.id %}"  class="btn btn-default"><span class="glyphicon glyphicon-remove">Delete</span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-muted">
+                  Posted {{ blog.date_pub|naturaltime }} by
+                  <a href="#">{{ blog.owner }}</a>
+              </div>
+            </div>
+        </div>
+        <!-- /.card -->
+         <hr>
+       {% endif %}
+      {% endfor %}
+      
+
+
+        <!-- Pagination -->
+        {% if blogPosts.has_other_pages %}
+          <ul class="pagination justify-content-center mb-4">
+
+            {% if blogPosts.has_previous %}
+
+                {% if blogPosts.paginator.num_pages > 5 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ 1 }}">First</a>
+                    </li>
+                {% endif %}
+
+              <li class="page-item">
+                <a class="page-link" href="?page={{ blogPosts.previous_page_number }}">&laquo; Newer</a>
+              </li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link">&laquo;</a></li>
+            {% endif %}
+
+
+          {% for i in blogPosts.paginator.page_range %}
+              {% if i <= blogPosts.number|add:5 and i >= blogPosts.number|add:-5 %}
+                  {% if blogPosts.number == i %}
+                      <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+              {% endif %}
+          {% endfor %}
+
+
+            {% if blogPosts.has_next %}
+              <li class="page-item ">
+                <a class="page-link" href="?page={{ blogPosts.next_page_number }}">Older &raquo;</a>
+              </li>
+
+                {% if blogPosts.paginator.num_pages > 5 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ blogPosts.paginator.num_pages }}">Last</a>
+                    </li>
+                {% endif %}
+
+            {% else %}
+              <li class="page-item disabled"><a class="page-link">&raquo;</a></li>
+            {% endif %}
+
+          </ul>
+       {% endif %}
+
+  </div>
+  <!-- main ends  -->
+</div>
+<!-- container ends  -->
+{% endblock %}

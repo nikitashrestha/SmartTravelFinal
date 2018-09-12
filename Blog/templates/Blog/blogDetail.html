@@ -1,0 +1,102 @@
+{% extends 'Blog/base.html' %}
+
+{% load staticfiles %}
+{% load humanize %}
+
+{% block content %}
+
+    <!-- Facebook Plugin -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.0';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+
+    <div class="container bg-light">
+
+    <h2>{{ blog.title }} </h2>
+
+    <img src="{{blog.photo.url}}" style="width: 1000px; height: auto;">
+
+    <p>{{ blog.content|linebreaks }}</p>
+
+
+    {% if user.is_authenticated %}
+    <button type="button" id="likebtn" data-blogid="{{ blog.id }}" class="btn btn-info bg-light">
+      <img src="{% static 'images/customImages/likeIcon.png' %}" style="width: 25px; height: 25px"> <span class="badge badge-light" id="likes_count">{{ blog.bloglike_set.all.count }}</span>
+      <span class="sr-only">blog likes</span>
+    </button>
+
+    <!-- <button type="button" id="dislikebtn" data-blogid="{{ blog.id }}" class="btn btn-outline-info bg-light">
+      <img src="{% static 'images/customImages/dislikeIcon.png' %}" style="width: 25px; height: 25px"> <span class="badge badge-light" id="dislikes_count">{{ blog.blogdislike_set.all.count }}</span>
+      <span class="sr-only">blog dislikes</span>
+    </button> -->
+    {% endif %}
+
+        {% if blog.owner == user %}
+            
+            <a href="{% url 'Blog:edit_post' blog.id %}" class="btn btn-primary card-link">Edit Post &rarr;</a>
+            <a href="{% url 'Blog:delete_post' blog.id %}" class="btn btn-default"><span class="glyphicon glyphicon-remove">Delete Post</span></a>
+        {% endif %}
+
+    <br>
+    <br>
+
+    <hr>
+    <div>
+
+    <!--<div class="fb-comments" data-href="https://smarttravel.com/blog/blogdetail/{{ blog.id }}" data-numposts="5"></div> -->
+
+
+        {% comment %} <div class="fb-comments" data-href="SmartTravel/Blog/blogDetail" data-numposts="8"></div>
+{% endcomment %}
+
+
+    <div class="container">
+        {% with comments.count as total_comments %}
+            <h4>{{ total_comments }} comment{{ total_comments|pluralize }}:</h4>
+        {% endwith %}
+        <hr>
+
+        {% if user.is_authenticated %}
+            {% if new_comment %}
+                <h5>Your comment has been added.</h5>
+            {% else %}
+                <div class="card">
+                <h5 class="card-header">Add a new comment</h5>
+                <div class="card-body">
+                <form action="." method="post">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <input type="submit" value="Add comment">
+                </form>
+                </div>
+                </div>
+            {% endif %}
+        {% else %}
+        <h5>You must be signed in to add comments. </h5>
+        {% endif %}
+
+        <hr>
+
+        {% for comment in comments %}
+            <div class="card">
+                <div class="card-header">
+                    Comment by <strong>{{ comment.owner }}</strong> | {{ comment.date_pub|naturaltime }}
+                </div>
+                <div class="card-body">{{ comment.content|linebreaks }}</div>
+            </div>
+        {% empty %}
+            <p>There are no comments yet.</p>
+        {% endfor %}
+
+    </div>
+
+
+    <script src="{% static 'js/like_dislike.js' %}"></script>
+
+{% endblock %}

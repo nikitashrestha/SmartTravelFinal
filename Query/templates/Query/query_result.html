@@ -1,0 +1,81 @@
+{% extends 'Query/base.html' %}
+{% load staticfiles %}
+{% load cloudinary %}
+{% block result_content %}
+
+   
+    {% if res == 'R' and result is not None %}
+        <!-- Page Content -->
+           <!-- result for actual query-->
+            <div class="container">
+                <br>
+              <h2>Top restaurants</h2>
+                <br>
+                 <div class="row">
+                 {% for story in result %}
+                 {% if story.photo %}
+                      <div class="col-lg-4 col-sm-6" style="margin-bottom:15px;">
+                          <div class="card h-100">
+                           
+                            <div class="card-body">
+                             <h4 class="card-title">
+                                <a href="#">{{story.Name}}</a>
+                              </h4>
+
+                            </div>
+                            <div style="height: 300px;">
+                            <img class="card-img-top" src ="{{story.photo.url}}" style="height: 100%;object-fi:cover; width=calc(((100vw-300px)/2)/16)*9);"></div>
+                              <div class="card-footer">
+                                 <a href="{% url 'Query:restDetail' story.id%}" class="btn btn-primary" name="detail">Learn More</a>
+                              </div>
+                          </div>
+                      </div>
+                     
+                     {% endif %}
+                {% endfor%}
+              </div>
+            </div>
+       {%endif%}
+      <!-- /.row -->
+    
+    {% if res == 'P' and result is not None%}
+        <!-- Page Content -->
+           <!-- result for actual query-->
+            <div class="container">
+                <br>
+              <h2>Places To Visit</h2>
+                <br>
+                 <div class="row">
+                 {% for story in result %}
+                 {% if story.photo %}
+                      <div class="col-lg-4 col-sm-6" style="margin-bottom:15px;">
+                          <div class="card h-100 ">
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <a href="#">{{story.Name}}</a>
+                              </h4>
+                            </div>
+                            <div style="height: 300px;">
+                            <img class="card-img-top" src ="{{story.photo.url}}" style="height: 100%;object-fi:cover; width=calc(((100vw-300px)/2)/16)*9);"></div>
+                              <div class="card-footer">
+                                 <a href="{% url 'Query:placeDetail' story.id%}" class="btn btn-primary" name="detail">Learn More</a>
+                              </div>
+                          </div>
+                      </div>
+                      {% endif %}
+                {% endfor%}
+              </div>
+            </div>
+       {%endif%}
+      <!-- /.row -->
+       {% if result is None %}
+                <h1>Sorry,No results found</h1>
+        {% endif %}
+      <hr>
+
+   
+    <!-- /.container after header has ended-->
+
+{% endblock %}
+
+

@@ -1,0 +1,31 @@
+{%load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+	<div class="container bg-light" style="margin-top: 30px; padding-top:30px;">
+	
+	<div class="page-header">	
+		<br>
+		<h4 class="lead">Register a new account.</h4>
+		<hr class="my-4">
+	</div>
+
+	<form action="{% url 'Query:register' %}" method="post" class="form">
+		{% csrf_token %}
+		{% bootstrap_form form %}
+		
+		<button name="submit" class="btn btn-primary">register</button>
+		<input type="hidden" name="next" value="{% url 'Query:login' %}">
+	</form>
+	<p>Already have an account? <a href="{% url 'Query:login' %}">Log in.</a></p>
+
+    </div> 
+
+</body>
+</html>
