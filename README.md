@@ -1,6 +1,5 @@
 # SmartTravelFinal
-Website related to travel info
-
+Python/Django
 This is a website that guides tourist in Nepal recommending them best places to visit nearby along with information regarding accomodation.
 
 
